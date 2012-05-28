@@ -3,8 +3,12 @@ COPTS=-Wall -O2
 
 all: run-test
 
-run-test: swtest
+run-test: swtest sttest
 	./swtest
+	./sttest
 
 swtest: stopwatch_test.o stopwatch_mach.o
 	cc -o $@ stopwatch_test.o stopwatch_mach.o -lm
+
+sttest: state_timer_test.o stopwatch_mach.o
+	cc -o $@ state_timer_test.o stopwatch_mach.o -lm
