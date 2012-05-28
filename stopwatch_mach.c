@@ -24,6 +24,15 @@ stopwatch_stop(struct stopwatch *sw)
 	sw->t += mach_absolute_time();
 }
 
+void
+stopwatch_handover(struct stopwatch *from, struct stopwatch *to)
+{
+	uint64_t t = mach_absolute_time();
+	from->t += t;
+	to->t -= t;
+}
+
+
 static mach_timebase_info_data_t tb;
 static void
 tb_init(void)

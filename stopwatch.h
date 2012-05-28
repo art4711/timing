@@ -10,6 +10,7 @@ struct stopwatch {
 void stopwatch_reset(struct stopwatch *);
 void stopwatch_start(struct stopwatch *);
 void stopwatch_stop(struct stopwatch *);
+void stopwatch_handover(struct stopwatch *, struct stopwatch *);
 
 struct timeval;
 struct timespec;
