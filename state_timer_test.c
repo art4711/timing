@@ -31,7 +31,7 @@ main(int argc, char **argv)
 
 	for (i = 0; i < 20; i++) {
 		STATE_TIMER_ENTER(&timers, i % 5);
-		usleep(200000);		
+		usleep(200000);
 	}
 
 	for (i = 0; i < 5; i++) {
