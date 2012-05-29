@@ -1,0 +1,5 @@
+swtest: stopwatch_test.o stopwatch_mach.o
+	cc -o $@ stopwatch_test.o stopwatch_mach.o -lm
+
+sttest: state_timer_test.o stopwatch_mach.o
+	cc -o $@ state_timer_test.o stopwatch_mach.o -lm

@@ -1,0 +1,5 @@
+swtest: stopwatch_test.o stopwatch_linux.o
+	cc -D_GNU_SOURCE -o $@ stopwatch_test.o stopwatch_linux.o -lrt
+
+sttest: state_timer_test.o stopwatch_linux.o
+	cc -D_GNU_SOURCE -o $@ state_timer_test.o stopwatch_linux.o -lrt
