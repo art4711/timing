@@ -1,4 +1,5 @@
-.PHONY: all run-test
+OSNAME ?= $(shell uname -s)
+OSNAME := $(shell echo $(OSNAME) | tr A-Z a-z)
 COPTS=-Wall -O2
 
 all: run-test
@@ -10,8 +11,9 @@ run-test: swtest sttest
 	./swtest
 	./sttest
 
-swtest: stopwatch_test.o stopwatch_mach.o
-	cc -o $@ stopwatch_test.o stopwatch_mach.o -lm
+include Makefile.$(OSNAME)
 
-sttest: state_timer_test.o stopwatch_mach.o
-	cc -o $@ state_timer_test.o stopwatch_mach.o -lm
+clean:
+	rm -rf *.o swtest sttest *.core
+
+.PHONY: all run-test
