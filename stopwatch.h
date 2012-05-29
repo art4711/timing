@@ -20,14 +20,7 @@
 /* Exposed only because it's needed. */
 #include <inttypes.h>
 struct stopwatch {
-#if defined(__MACH__)
 	uint64_t t;
-#elif defined (__linux__)
-	struct timespec ts;
-	uint64_t	t;
-#else
-#error "Unsupported Target. Hit art with a bat."
-#endif
 };
 
 void stopwatch_reset(struct stopwatch *);

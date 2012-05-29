@@ -16,7 +16,6 @@
  */
 #include <sys/time.h>
 
-#include <assert.h>
 #include <inttypes.h>
 #include <string.h>
 #include <time.h>
@@ -36,7 +35,10 @@ stopwatch_reset(struct stopwatch *sw)
 void
 stopwatch_start(struct stopwatch *sw)
 {
-	assert(clock_gettime(CLOCK_MONOTONIC, &sw->ts) == 0);
+	struct timespec	ts;
+
+	clock_gettime(CLOCK_MONOTONIC, &ts);
+	sw->t -= (ts.tv_nsec + (1000000000 * ts.tv_sec));
 }
 
 void
@@ -44,9 +46,7 @@ stopwatch_stop(struct stopwatch *sw)
 {
 	struct timespec	ts;
 
-	assert(clock_gettime(CLOCK_MONOTONIC, &ts) == 0);
-	ts.tv_sec -= sw->ts.tv_sec;
-	ts.tv_nsec -= sw->ts.tv_nsec;
+	clock_gettime(CLOCK_MONOTONIC, &ts);
 	sw->t += (ts.tv_nsec + (1000000000 * ts.tv_sec));
 }
 
@@ -54,30 +54,25 @@ void
 stopwatch_handover(struct stopwatch *from, struct stopwatch *to)
 {
 	struct timespec	ts;
+	uint64_t	t;
 
-	assert(clock_gettime(CLOCK_MONOTONIC, &ts) == 0);
+	clock_gettime(CLOCK_MONOTONIC, &ts);
+	t = (ts.tv_nsec + (1000000000 * ts.tv_sec));
 
-	to->ts.tv_sec = ts.tv_sec;
-	to->ts.tv_nsec = ts.tv_nsec;
-
-	ts.tv_sec -= from->ts.tv_sec;
-	ts.tv_nsec -= from->ts.tv_nsec;
-	from->t += (ts.tv_nsec + (1000000000 * ts.tv_sec));
+	from->t += t;
+	to->t -= t;
 }
 
 void
 stopwatch_snapshot(struct stopwatch *from, struct stopwatch *to)
 {
 	struct timespec ts;
+	uint64_t	t;
 
-	to->ts.tv_sec = from->ts.tv_sec;
-	to->ts.tv_nsec = from->ts.tv_nsec;
-	to->t = from->t;
+	clock_gettime(CLOCK_MONOTONIC, &ts);
+	t = (ts.tv_nsec + (1000000000 * ts.tv_sec));
 
-	assert(clock_gettime(CLOCK_MONOTONIC, &ts) == 0);
-	ts.tv_sec -= to->ts.tv_sec;
-	ts.tv_nsec -= to->ts.tv_nsec;
-	to->t += (ts.tv_nsec + (1000000000 * ts.tv_sec));
+	to->t = from->t + t;
 }
 
 /*
