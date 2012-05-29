@@ -1,0 +1,37 @@
+stopwatch.h -> API for a stopwatch-like functionality.
+ Stopwatches are timers that keep track of the sum of elapsed time between
+ the calls to start and stop function. The stopwatch struct itself is opaque
+ and should keep track in any time unit that's most convenient for the
+ internal implementation. There are functions to translate this internal
+ counter into more useful representations of time when that's needed. The
+ point is to have time stamping as cheap as possible and do the heavy math
+ when converting into something to print.
+
+ "struct stopwatch" - opaque, but its definition must be provided by the
+ header because the user has to allocate is himself.
+ "stopwatch_reset" - resets the stopwatch.
+ "stopwatch_start" - starts accumulating time.
+ "stopwatch_stop" - stops accumulating time.
+ "stopwatch_handover" - uses the same timestamp to stop the stopwatch
+   in the first argument and start the stopwatch in the second argument.
+ "stopwatch_to_ts" - converts the internal value of the stopwatch into
+   a timespec.
+ "stopwatch_to_tv" - converts the internal value of the stopwatch into
+   a timeval.
+ "stopwatch_to_s" - converts the internal value of the stopwatch into
+   a integer of number of seconds elapsed.
+ "stopwatch_to_ns" - converts the internal value of the stopwatch into
+   a double containing the number of nanoseconds elapsed.
+
+state_timer.h -> API for keeping track of time spent in various states of
+ a state machine. Just simple macros around stopwatches.
+ 
+ "STATE_TIMER(nstates)" - declares a struct that will keep track of "nstates"
+  states.
+ "STATE_TIMER_RESET(st, nstates)" - resets a "STATE_TIMER" struct.
+ "STATE_TIMER_ENTER(st, state)" - called when entering "state" which will
+  start accounting time for that state and stop accounting time for the
+  previous state.
+ "STATE_TIMER_STOP(st)" - called to stop accounting time.
+ "STATE_TIMER_STOPWATCH(st, state)" - returns the stopwatch for a
+  particular state (presumably to do time conversions).
