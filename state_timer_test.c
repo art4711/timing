@@ -16,6 +16,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "state_timer.h"
 
@@ -33,9 +34,12 @@ main(int argc, char **argv)
 		usleep(200000);		
 	}
 
-	STATE_TIMER_STOP(&timers);
 	for (i = 0; i < 5; i++) {
-		double ns = stopwatch_to_ns(STATE_TIMER_STOPWATCH(&timers, i));
+		struct stopwatch sw;
+		double ns;
+
+		STATE_TIMER_STOPWATCH(&timers, i, &sw);
+		ns = stopwatch_to_ns(&sw);
 
 		printf("%d: %f\n", i, ns);
 	}

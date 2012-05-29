@@ -14,6 +14,7 @@ stopwatch.h -> API for a stopwatch-like functionality.
  "stopwatch_stop" - stops accumulating time.
  "stopwatch_handover" - uses the same timestamp to stop the stopwatch
    in the first argument and start the stopwatch in the second argument.
+ "stopwatch_snapshot" - take a current snapshot of a running stopwatch.
  "stopwatch_to_ts" - converts the internal value of the stopwatch into
    a timespec.
  "stopwatch_to_tv" - converts the internal value of the stopwatch into
@@ -33,5 +34,6 @@ state_timer.h -> API for keeping track of time spent in various states of
   start accounting time for that state and stop accounting time for the
   previous state.
  "STATE_TIMER_STOP(st)" - called to stop accounting time.
- "STATE_TIMER_STOPWATCH(st, state)" - returns the stopwatch for a
-  particular state (presumably to do time conversions).
+ "STATE_TIMER_STOPWATCH(st, state, res)" - returns the stopwatch for a
+  particular state (presumably to do time conversions) copied into the
+  "res" stopwatch struct.

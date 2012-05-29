@@ -3,6 +3,9 @@ COPTS=-Wall -O2
 
 all: run-test
 
+.c.o:
+	cc $(COPTS) -c $<
+
 run-test: swtest sttest
 	./swtest
 	./sttest

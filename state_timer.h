@@ -39,6 +39,12 @@
 
 #define STATE_TIMER_STOP(st) STATE_TIMER_ENTER((st), -1)
 
-#define STATE_TIMER_STOPWATCH(st, state) (&(st)->st_sw[state + 1])
+#define STATE_TIMER_STOPWATCH(st, state, res) do {\
+	int _state = (state + 1); \
+	if (_state == (st)->st_state) \
+		stopwatch_snapshot(&(st)->st_sw[_state], res); \
+	else \
+		*(res) = ((st)->st_sw[_state]); \
+} while (0)
 
 #endif
