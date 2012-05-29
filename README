@@ -8,7 +8,7 @@ stopwatch.h -> API for a stopwatch-like functionality.
  when converting into something to print.
 
  "struct stopwatch" - opaque, but its definition must be provided by the
- header because the user has to allocate is himself.
+ header because the user has to allocate it himself.
  "stopwatch_reset" - resets the stopwatch.
  "stopwatch_start" - starts accumulating time.
  "stopwatch_stop" - stops accumulating time.
