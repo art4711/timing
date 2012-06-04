@@ -1,3 +1,8 @@
+Stopwatches and state machine timing.
+
+This is not meant to be very useful in userland, although it has its uses,
+the idea here is to figure out the quirks in the API for kernel use.
+
 stopwatch.h -> API for a stopwatch-like functionality.
  Stopwatches are timers that keep track of the sum of elapsed time between
  the calls to start and stop function. The stopwatch struct itself is opaque
